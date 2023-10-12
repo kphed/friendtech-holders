@@ -14,7 +14,8 @@ const getUsers = async (pageStart = 0, users = []) => {
     );
     const newUsers = [...data.users, ...users];
 
-    if (data.nextPageStart === null) return newUsers;
+    if (data.nextPageStart === null)
+      return fs.writeFileSync(USERS_FILE_PATH, JSON.stringify(newUsers));
 
     return getUsers(data.nextPageStart, newUsers);
   } catch (err) {
@@ -22,6 +23,4 @@ const getUsers = async (pageStart = 0, users = []) => {
   }
 };
 
-getUsers()
-  .then((users) => fs.writeFileSync(USERS_FILE_PATH, JSON.stringify(users)))
-  .catch((err) => console.error(err));
+getUsers();
